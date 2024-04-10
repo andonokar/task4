@@ -1,0 +1,43 @@
+version: '2'
+
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  mongodb:
+    image: 'bitnami/mongodb:latest'
+    restart: always
+    volumes:
+      - /Users/anderson.lima/IdeaProjects/volumes/mongo-persistence:/bitnami/mongodb # replace with you own persistence path
+    networks:
+      - app-tier
+    ports:
+      - "27017:27017"
+    environment:
+      MONGODB_ADVERTISED_HOSTNAME: mongodb
+      MONGODB_ROOT_PASSWORD: example
+      EXPERIMENTAL_DOCKER_DESKTOP_FORCE_QEMU: 1
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongodb:27017/
+    networks:
+      - app-tier
+    depends_on:
+      - mongodb
+
+  task4:
+    image: andonokar/task4
+    restart: always
+    networks:
+      - app-tier
+    depends_on:
+      - mongodb
+      - mongo-express
