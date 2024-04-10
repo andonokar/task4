@@ -17,7 +17,4 @@ COPY src/main/. /src/main
 # set python3
 ENV PYSPARK_PYTHON=/usr/bin/python3
 
-# set main work directory
-WORKDIR /src
-
-CMD ["python3", "main"]
+CMD ["python3", "src/main"]

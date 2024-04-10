@@ -1,6 +1,6 @@
 import pyspark.sql
 
-from sparkInit import spark
+from src.main.sparkInit import spark
 from pyspark.sql import functions as f
 from pyspark.sql import types as t
 
